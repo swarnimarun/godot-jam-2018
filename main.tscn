@@ -1,0 +1,856 @@
+[gd_scene load_steps=26 format=2]
+
+[ext_resource path="res://WorldManager.gd" type="Script" id=1]
+[ext_resource path="res://Music/Upbeat Loop_2.ogg" type="AudioStream" id=2]
+[ext_resource path="res://Music/shoot_deep.wav" type="AudioStream" id=3]
+[ext_resource path="res://player.png" type="Texture" id=4]
+[ext_resource path="res://Player.gd" type="Script" id=5]
+[ext_resource path="res://test.png" type="Texture" id=6]
+[ext_resource path="res://test1.png" type="Texture" id=7]
+[ext_resource path="res://cam_shake.gd" type="Script" id=8]
+[ext_resource path="res://cross.png" type="Texture" id=9]
+[ext_resource path="res://aim.png" type="Texture" id=10]
+[ext_resource path="res://follow_mouse.gd" type="Script" id=11]
+[ext_resource path="res://UI/gear.png" type="Texture" id=12]
+[ext_resource path="res://UI/musicOn.png" type="Texture" id=13]
+[ext_resource path="res://UI/right.png" type="Texture" id=14]
+[ext_resource path="res://UI/return.png" type="Texture" id=15]
+[ext_resource path="res://UI/audioOn.png" type="Texture" id=16]
+[ext_resource path="res://Fonts/DIMITRI.TTF" type="DynamicFontData" id=17]
+[ext_resource path="res://box.png" type="Texture" id=18]
+[ext_resource path="res://direction.png" type="Texture" id=19]
+[ext_resource path="res://UI/home.png" type="Texture" id=20]
+[ext_resource path="res://EnemyManager.gd" type="Script" id=21]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 11.312, 19.6744 )
+
+[sub_resource type="DynamicFont" id=2]
+
+size = 28
+use_mipmaps = true
+use_filter = false
+font_data = ExtResource( 17 )
+_sections_unfolded = [ "Font", "Settings" ]
+
+[sub_resource type="DynamicFont" id=3]
+
+size = 37
+use_mipmaps = true
+use_filter = false
+font_data = ExtResource( 17 )
+_sections_unfolded = [ "Font", "Settings" ]
+
+[sub_resource type="DynamicFont" id=4]
+
+size = 50
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 17 )
+_sections_unfolded = [ "Font", "Settings" ]
+
+[node name="main" type="Node2D" index="0"]
+
+script = ExtResource( 1 )
+_sections_unfolded = [ "Pause" ]
+allow_fullscreen = true
+
+[node name="bg" type="AudioStreamPlayer" parent="." index="0"]
+
+stream = ExtResource( 2 )
+volume_db = -13.0
+pitch_scale = 1.0
+autoplay = true
+mix_target = 0
+bus = "Master"
+_sections_unfolded = [ "Pause" ]
+
+[node name="shoot" type="AudioStreamPlayer" parent="." index="1"]
+
+stream = ExtResource( 3 )
+volume_db = -15.0
+pitch_scale = 1.0
+autoplay = false
+mix_target = 0
+bus = "Master"
+
+[node name="player" type="Sprite" parent="." index="2" groups=[
+"player",
+]]
+
+position = Vector2( 403.958, 229.661 )
+z_index = 5
+texture = ExtResource( 4 )
+script = ExtResource( 5 )
+_sections_unfolded = [ "Pause", "Transform", "Z Index" ]
+move_speed = 300.0
+rot_speed = 6.0
+health_max = 100
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="player" index="0"]
+
+editor/display_folded = true
+layer = -1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+scroll_offset = Vector2( 0, 0 )
+scroll_base_offset = Vector2( 0, 0 )
+scroll_base_scale = Vector2( 1, 1 )
+scroll_limit_begin = Vector2( 0, 0 )
+scroll_limit_end = Vector2( 0, 0 )
+scroll_ignore_camera_zoom = false
+_sections_unfolded = [ "Scroll" ]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="player/ParallaxBackground" index="0"]
+
+motion_scale = Vector2( 1, 1 )
+motion_offset = Vector2( 0, 0 )
+motion_mirroring = Vector2( 2400, 2400 )
+_sections_unfolded = [ "Motion", "Transform" ]
+
+[node name="test" type="Sprite" parent="player/ParallaxBackground/ParallaxLayer" index="0"]
+
+self_modulate = Color( 1, 1, 1, 0.392157 )
+position = Vector2( 436.148, 335.009 )
+texture = ExtResource( 6 )
+_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
+
+[node name="test3" type="Sprite" parent="player/ParallaxBackground/ParallaxLayer" index="1"]
+
+self_modulate = Color( 1, 1, 1, 0.392157 )
+position = Vector2( 436.148, 1535.01 )
+texture = ExtResource( 7 )
+_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
+
+[node name="test2" type="Sprite" parent="player/ParallaxBackground/ParallaxLayer" index="2"]
+
+self_modulate = Color( 1, 1, 1, 0.392157 )
+position = Vector2( 1636.15, 335.009 )
+texture = ExtResource( 7 )
+_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
+
+[node name="test4" type="Sprite" parent="player/ParallaxBackground/ParallaxLayer" index="3"]
+
+self_modulate = Color( 1, 1, 1, 0.392157 )
+position = Vector2( 1636.15, 1535.01 )
+texture = ExtResource( 6 )
+_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
+
+[node name="cam" type="Camera2D" parent="player" index="1"]
+
+anchor_mode = 1
+rotating = false
+current = true
+zoom = Vector2( 1, 1 )
+limit_left = -10000000
+limit_top = -10000000
+limit_right = 10000000
+limit_bottom = 10000000
+limit_smoothed = false
+drag_margin_h_enabled = false
+drag_margin_v_enabled = false
+smoothing_enabled = false
+smoothing_speed = 5.0
+offset_v = 0.0
+offset_h = 0.0
+drag_margin_left = 0.2
+drag_margin_top = 0.2
+drag_margin_right = 0.2
+drag_margin_bottom = 0.2
+editor_draw_screen = true
+editor_draw_limits = false
+editor_draw_drag_margin = false
+script = ExtResource( 8 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="spawn" type="Node2D" parent="player" index="2"]
+
+editor/display_folded = true
+position = Vector2( -0.946686, -23.2578 )
+_sections_unfolded = [ "Transform" ]
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="point" type="Sprite" parent="player/spawn" index="0"]
+
+visible = false
+modulate = Color( 0, 0, 0, 0.375686 )
+texture = ExtResource( 9 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="Area2D" type="Area2D" parent="player" index="3"]
+
+editor/display_folded = true
+input_pickable = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+_sections_unfolded = [ "Pickable" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player/Area2D" index="0"]
+
+shape = SubResource( 1 )
+
+[node name="sp_r" type="ColorRect" parent="player" index="4" groups=[
+"spawner",
+]]
+
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = 1839.0
+margin_top = 86.0
+margin_right = 1898.0
+margin_bottom = 128.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+color = Color( 1, 1, 1, 1 )
+_sections_unfolded = [ "Rect" ]
+
+[node name="sp_l" type="ColorRect" parent="player" index="5" groups=[
+"spawner",
+]]
+
+anchor_left = 0.0
+anchor_top = 0.5
+anchor_right = 0.0
+anchor_bottom = 0.5
+margin_left = -1759.0
+margin_top = 40.0
+margin_right = -1719.0
+margin_bottom = 71.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+color = Color( 1, 1, 1, 1 )
+
+[node name="sp_t" type="ColorRect" parent="player" index="6" groups=[
+"spawner",
+]]
+
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 0.0
+margin_left = 37.5
+margin_top = -1211.0
+margin_right = 77.5
+margin_bottom = -1171.0
+rect_rotation = 89.7906
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+color = Color( 1, 1, 1, 1 )
+
+[node name="sp_b" type="ColorRect" parent="player" index="7" groups=[
+"spawner",
+]]
+
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 58.5
+margin_top = 1317.0
+margin_right = 98.5
+margin_bottom = 1363.0
+rect_rotation = 90.2373
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+color = Color( 1, 1, 1, 1 )
+
+[node name="UI" type="CanvasLayer" parent="." index="3"]
+
+layer = -3
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+
+[node name="Background" type="ColorRect" parent="UI" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+color = Color( 1, 0.501961, 0.501961, 1 )
+_sections_unfolded = [ "Mouse" ]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="aim" type="TextureRect" parent="UI" index="1"]
+
+self_modulate = Color( 0.172549, 0.352941, 0.627451, 1 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 236.0
+margin_top = 84.0
+margin_right = 268.0
+margin_bottom = 116.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 10 )
+stretch_mode = 0
+script = ExtResource( 11 )
+_sections_unfolded = [ "Visibility" ]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="GUI" type="Control" parent="UI" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+_sections_unfolded = [ "Mouse", "Pause", "Visibility" ]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="cross" type="TextureRect" parent="UI/GUI" index="0"]
+
+pause_mode = 2
+self_modulate = Color( 1, 1, 1, 0.392157 )
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_left = -33.0
+margin_top = 8.0
+margin_right = -9.0
+margin_bottom = 32.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 9 )
+stretch_mode = 0
+_sections_unfolded = [ "Visibility" ]
+
+[node name="gear" type="TextureRect" parent="UI/GUI" index="1"]
+
+pause_mode = 1
+self_modulate = Color( 1, 1, 1, 0.392157 )
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+margin_top = -100.0
+margin_right = 100.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 12 )
+stretch_mode = 0
+_sections_unfolded = [ "Material", "Pause", "Visibility" ]
+
+[node name="musicOn" type="TextureRect" parent="UI/GUI" index="2" groups=[
+"Pause",
+]]
+
+pause_mode = 2
+visible = false
+self_modulate = Color( 1, 1, 1, 0.501961 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 546.0
+margin_top = 198.0
+margin_right = 646.0
+margin_bottom = 298.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 13 )
+stretch_mode = 0
+_sections_unfolded = [ "Visibility" ]
+
+[node name="right" type="TextureRect" parent="UI/GUI" index="3" groups=[
+"Pause",
+]]
+
+pause_mode = 2
+visible = false
+self_modulate = Color( 1, 1, 1, 0.501961 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 431.0
+margin_top = 328.0
+margin_right = 531.0
+margin_bottom = 428.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 14 )
+stretch_mode = 0
+
+[node name="return" type="TextureRect" parent="UI/GUI" index="4" groups=[
+"Pause",
+]]
+
+pause_mode = 2
+visible = false
+self_modulate = Color( 1, 1, 1, 0.501961 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 543.0
+margin_top = 325.0
+margin_right = 643.0
+margin_bottom = 425.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 15 )
+stretch_mode = 0
+
+[node name="audioOn" type="TextureRect" parent="UI/GUI" index="5" groups=[
+"Pause",
+]]
+
+pause_mode = 2
+visible = false
+self_modulate = Color( 1, 1, 1, 0.501961 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 428.0
+margin_top = 199.0
+margin_right = 528.0
+margin_bottom = 299.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 16 )
+stretch_mode = 0
+
+[node name="score" type="RichTextLabel" parent="UI/GUI" index="6"]
+
+self_modulate = Color( 1, 1, 1, 0.209961 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 19.0
+margin_top = 18.0
+margin_right = 366.0
+margin_bottom = 105.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = true
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+custom_fonts/mono_font = SubResource( 2 )
+custom_fonts/normal_font = SubResource( 3 )
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+bbcode_enabled = false
+bbcode_text = ""
+visible_characters = -1
+percent_visible = 1.0
+meta_underlined = true
+tab_size = 4
+text = "Score: 0"
+scroll_active = true
+scroll_following = false
+selection_enabled = false
+override_selected_font_color = false
+_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="dialog box" type="NinePatchRect" parent="UI" index="3"]
+
+visible = false
+self_modulate = Color( 1, 1, 1, 0.723765 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 554.0
+margin_top = 450.0
+margin_right = 1007.0
+margin_bottom = 595.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 18 )
+patch_margin_left = 28
+patch_margin_top = 28
+patch_margin_right = 28
+patch_margin_bottom = 28
+_sections_unfolded = [ "Patch Margin", "Rect", "Visibility" ]
+
+[node name="board_heat" type="Label" parent="UI" index="4"]
+
+visible = false
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 0.0
+margin_left = -141.5
+margin_right = 141.5
+margin_bottom = 51.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 1, 0.160156, 0.160156, 1 )
+text = "Overheating"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_colors", "custom_fonts" ]
+
+[node name="board_cold" type="Label" parent="UI" index="5"]
+
+visible = false
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 0.0
+margin_left = -141.5
+margin_right = 141.5
+margin_bottom = 51.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Freezing"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_colors", "custom_fonts" ]
+
+[node name="dt" type="TextureRect" parent="UI" index="6"]
+
+visible = false
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 0.0
+margin_left = -24.0
+margin_right = 24.0
+margin_bottom = 60.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 19 )
+stretch_mode = 0
+
+[node name="db" type="TextureRect" parent="UI" index="7"]
+
+visible = false
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 9.0
+margin_top = -5.0
+margin_right = 57.0
+margin_bottom = 55.0
+rect_rotation = 180.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 19 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="dr" type="TextureRect" parent="UI" index="8"]
+
+visible = false
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -5.0
+margin_top = -24.0
+margin_right = 43.0
+margin_bottom = 36.0
+rect_rotation = 90.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 19 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="dl" type="TextureRect" parent="UI" index="9"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.5
+anchor_right = 0.0
+anchor_bottom = 0.5
+margin_left = 10.0
+margin_top = 23.0
+margin_right = 58.0
+margin_bottom = 83.0
+rect_rotation = -90.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 19 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="newUI" type="CanvasLayer" parent="." index="4"]
+
+layer = 1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+
+[node name="return" type="TextureRect" parent="newUI" index="0" groups=[
+"endgui",
+]]
+
+pause_mode = 2
+visible = false
+self_modulate = Color( 1, 1, 1, 0.501961 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 488.0
+margin_top = 211.0
+margin_right = 588.0
+margin_bottom = 311.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 15 )
+stretch_mode = 0
+
+[node name="game over" type="Label" parent="newUI" index="1" groups=[
+"endgui",
+]]
+
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -160.0
+margin_top = -140.0
+margin_right = 123.0
+margin_bottom = -89.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 4 )
+text = "GAME OVER"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_colors", "custom_fonts" ]
+
+[node name="high score" type="Label" parent="newUI" index="2" groups=[
+"endgui",
+]]
+
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -187.0
+margin_top = 22.0
+margin_right = 156.0
+margin_bottom = 73.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 4 )
+text = "High Score: 100"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_colors", "custom_fonts" ]
+
+[node name="home" type="TextureRect" parent="newUI" index="3" groups=[
+"endgui",
+]]
+
+pause_mode = 2
+visible = false
+self_modulate = Color( 1, 1, 1, 0.501961 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 389.0
+margin_top = 212.0
+margin_right = 489.0
+margin_bottom = 312.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 20 )
+stretch_mode = 0
+_sections_unfolded = [ "Visibility" ]
+
+[node name="bullets" type="Node2D" parent="." index="5"]
+
+[node name="enemies" type="Node2D" parent="." index="6"]
+
+script = ExtResource( 21 )
+
+[connection signal="body_entered" from="player/Area2D" to="player" method="_on_area_body_entered"]
+
+[connection signal="gui_input" from="UI/GUI/cross" to="." method="_on_cross_gui_input"]
+
+[connection signal="mouse_entered" from="UI/GUI/cross" to="." method="_on_cross_mouse_entered"]
+
+[connection signal="mouse_exited" from="UI/GUI/cross" to="." method="_on_cross_mouse_exited"]
+
+[connection signal="gui_input" from="UI/GUI/gear" to="." method="_on_gear_gui_input"]
+
+[connection signal="mouse_entered" from="UI/GUI/gear" to="." method="_on_gear_mouse_entered"]
+
+[connection signal="mouse_exited" from="UI/GUI/gear" to="." method="_on_gear_mouse_exited"]
+
+[connection signal="gui_input" from="UI/GUI/musicOn" to="." method="_on_musicOn_gui_input"]
+
+[connection signal="mouse_entered" from="UI/GUI/musicOn" to="." method="_on_musicOn_mouse_entered"]
+
+[connection signal="mouse_exited" from="UI/GUI/musicOn" to="." method="_on_musicOn_mouse_exited"]
+
+[connection signal="gui_input" from="UI/GUI/right" to="." method="_on_right_gui_input"]
+
+[connection signal="mouse_entered" from="UI/GUI/right" to="." method="_on_right_mouse_entered"]
+
+[connection signal="mouse_exited" from="UI/GUI/right" to="." method="_on_right_mouse_exited"]
+
+[connection signal="gui_input" from="UI/GUI/return" to="." method="_on_return_gui_input"]
+
+[connection signal="mouse_entered" from="UI/GUI/return" to="." method="_on_return_mouse_entered"]
+
+[connection signal="mouse_exited" from="UI/GUI/return" to="." method="_on_return_mouse_exited"]
+
+[connection signal="gui_input" from="UI/GUI/audioOn" to="." method="_on_audioOn_gui_input"]
+
+[connection signal="mouse_entered" from="UI/GUI/audioOn" to="." method="_on_audioOn_mouse_entered"]
+
+[connection signal="mouse_exited" from="UI/GUI/audioOn" to="." method="_on_audioOn_mouse_exited"]
+
+[connection signal="gui_input" from="newUI/return" to="." method="_on_returnnew_gui_input"]
+
+[connection signal="mouse_entered" from="newUI/return" to="." method="_on_returnnew_mouse_entered"]
+
+[connection signal="mouse_exited" from="newUI/return" to="." method="_on_returnnew_mouse_exited"]
+
+[connection signal="gui_input" from="newUI/home" to="." method="_on_homenew_gui_input"]
+
+[connection signal="mouse_entered" from="newUI/home" to="." method="_on_homenew_mouse_entered"]
+
+[connection signal="mouse_exited" from="newUI/home" to="." method="_on_homenew_mouse_exited"]
+
+

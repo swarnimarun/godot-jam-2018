@@ -1,0 +1,148 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://title_screen.gd" type="Script" id=1]
+[ext_resource path="res://Music/Upbeat Loop_2.ogg" type="AudioStream" id=2]
+[ext_resource path="res://cross.png" type="Texture" id=3]
+[ext_resource path="res://Fonts/Savior5.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://UI/Play.png" type="Texture" id=5]
+[ext_resource path="res://UI/Play_press.png" type="Texture" id=6]
+
+[sub_resource type="DynamicFont" id=1]
+
+size = 200
+use_mipmaps = false
+use_filter = true
+font_data = ExtResource( 4 )
+_sections_unfolded = [ "Font", "Settings" ]
+
+[node name="title_screen" type="Node2D" index="0"]
+
+script = ExtResource( 1 )
+
+[node name="bg" type="AudioStreamPlayer" parent="." index="0"]
+
+stream = ExtResource( 2 )
+volume_db = -19.0
+pitch_scale = 1.0
+autoplay = false
+mix_target = 0
+bus = "Master"
+
+[node name="UI" type="CanvasLayer" parent="." index="1"]
+
+layer = -1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+
+[node name="Background" type="ColorRect" parent="UI" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+color = Color( 1, 1, 1, 1 )
+
+[node name="GUI" type="Control" parent="UI" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="cross" type="TextureRect" parent="UI/GUI" index="0"]
+
+self_modulate = Color( 1, 1, 1, 0.508274 )
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_left = -30.0
+margin_top = 12.0
+margin_right = -14.0
+margin_bottom = 28.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 3 )
+stretch_mode = 0
+_sections_unfolded = [ "Visibility" ]
+
+[node name="title" type="Label" parent="UI" index="2"]
+
+self_modulate = Color( 1, 0.5625, 0.5625, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -255.0
+margin_top = -191.0
+margin_right = 270.0
+margin_bottom = -3.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "TEMPORS"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="play" type="TextureButton" parent="UI" index="3"]
+
+self_modulate = Color( 1, 1, 1, 0.127059 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -128.0
+margin_top = 9.0
+margin_right = 128.0
+margin_bottom = 96.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+texture_normal = ExtResource( 5 )
+texture_pressed = ExtResource( 6 )
+_sections_unfolded = [ "Textures", "Visibility" ]
+
+[connection signal="gui_input" from="UI/GUI/cross" to="." method="_on_cross_gui_input"]
+
+[connection signal="mouse_entered" from="UI/GUI/cross" to="." method="_on_cross_mouse_entered"]
+
+[connection signal="mouse_exited" from="UI/GUI/cross" to="." method="_on_cross_mouse_exited"]
+
+[connection signal="button_up" from="UI/play" to="." method="_on_play_button_up"]
+
+

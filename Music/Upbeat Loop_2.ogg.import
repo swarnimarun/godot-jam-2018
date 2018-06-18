@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Upbeat Loop_2.ogg-539b7aa2c926e50fbd5852b1d33f6e46.oggstr"
+
+[deps]
+
+source_file="res://Music/Upbeat Loop_2.ogg"
+dest_files=[ "res://.import/Upbeat Loop_2.ogg-539b7aa2c926e50fbd5852b1d33f6e46.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
