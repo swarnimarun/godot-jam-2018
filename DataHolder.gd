@@ -24,14 +24,25 @@ var high_score = 0
 
 var player_original_position = Vector2()
 
+var reset = false
+
+func _process(delta):
+	if Input.is_action_just_pressed("ui_f11"):
+		OS.window_fullscreen = not OS.window_fullscreen
+
 func reload_scene():
 	enemy_count = 0
 	score = 0
+	tension = 0
 	current_temp = original_temp
+	reset = true
+	normal = true
 	var p = get_tree().get_nodes_in_group("player")
 	if p.size() > 0:
 		p[0].position = player_original_position
-
+	yield(get_tree(), "idle_frame")
+	yield(get_tree(), "idle_frame")
+	reset = false
 func mix(col1, col2, factor): # factor = 0 returns col1, factor = 1 returns col2
 	if factor <= 0.0:
 		return col1

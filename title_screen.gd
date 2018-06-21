@@ -1,34 +1,28 @@
 extends Node2D
 
-onready var bg = $"UI/Background"
-onready var title = $"UI/title"
+var on_title = true
 
-func _ready():
-	$bg.playing = true
-	setup_colors()
+func _process(delta):
+	Data.mouseposGlobal = get_global_mouse_position()
+	if Input.is_key_pressed(KEY_ESCAPE):
+		get_tree().call_deferred("quit")
+	if Input.is_action_just_pressed("ui_accept") and on_title:
+		_on_title_play_hit()
+	if Input.is_action_just_pressed("ui_accept") and not on_title and get_tree().paused:
+		show_title()
 
-func setup_colors():
-	var l = Data.get_color_light()
-	var m = Data.get_color_mid()
-	var d = Data.get_color_dark()
-	
-	bg.color = l
-	title.self_modulate = d
+func _on_title_play_hit():
+	var t = $"title"
+	remove_child(t)
+	t.queue_free()
+	var ld = preload("res://main.tscn").instance()
+	add_child(ld)
+	on_title = false
 
-func _on_cross_gui_input(ev):
-	if ev is InputEventMouseButton:
-		$bg.playing = false
-		get_tree().quit()
-
-func _input(event):
-	if event is InputEventMouse:
-		Data.mousepos = event.position
-
-func _on_cross_mouse_entered():
-	get_node("UI/GUI/cross").self_modulate = Color(1.0,1.0,1.0,0.8)
-
-func _on_cross_mouse_exited():
-	get_node("UI/GUI/cross").self_modulate = Color(1.0,1.0,1.0,0.4)
-
-func _on_play_button_up():
-	get_tree().change_scene("res://main.tscn")
+func show_title():
+	var m = $"main"
+	remove_child(m)
+	m.queue_free()
+	var ld = preload("res://title.tscn").instance()
+	add_child(ld)
+	on_title = true

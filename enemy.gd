@@ -19,6 +19,7 @@ func _process(delta):
 				stop_follow = true
 		elif position.distance_squared_to(target.position) < 100000000:
 			stop_follow = false
+	
 	if health <= 0:
 		die()
 

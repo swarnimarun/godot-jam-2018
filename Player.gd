@@ -8,12 +8,16 @@ var health = health_max
 
 var bullet = preload("res://bullet.tscn")
 onready var spawn_at = get_node("spawn")
-onready var spawner = get_node("/root/main/bullets")
+onready var spawner = get_parent().get_node("bullets")
 onready var sht = get_parent().get_node("shoot")
 
 var timer = 0
 
 var nd = Node2D.new()
+
+func reset():
+	health = health_max
+	timer = 0
 
 func _ready():
 	Data.player_original_position = position
@@ -21,6 +25,8 @@ func _ready():
 	nd.set_owner(get_tree().get_edited_scene_root())
 
 func _process(delta):
+	if Data.reset:
+		reset()
 	if health < health_max/4.0:
 		Data.tension += delta * 2.0 
 	elif health < health_max/2.0:

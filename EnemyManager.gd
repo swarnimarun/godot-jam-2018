@@ -2,19 +2,17 @@ extends Node2D
 
 var enemies = []
 
-onready var player = $"/root/main/player"
+onready var player = get_parent().get_node("player")
 
-onready var dr = $"/root/main/UI/dr"
-onready var dt = $"/root/main/UI/dt"
-onready var db = $"/root/main/UI/db"
-onready var dl = $"/root/main/UI/dl"
+onready var dr = get_parent().get_node("UI/dr")
+onready var dt = get_parent().get_node("UI/dt")
+onready var db = get_parent().get_node("UI/db")
+onready var dl = get_parent().get_node("UI/dl")
 
 onready var rev = preload("res://reverse.tscn")
 
 var show_something_special = false setget set_sh
 var norm = false
-
-
 
 var timer = 4.0
 
@@ -53,7 +51,8 @@ func show_enemy_hint():
 
 func reset():
 	clear_enemies()
-	randomize()
+	show_something_special = false
+	norm = false
 	i = randi() % 4
 
 func clear_enemies():
@@ -62,6 +61,8 @@ func clear_enemies():
 		n.call_deferred("free")
 
 func _process(delta):
+	if Data.reset:
+		reset()
 	if Data.enemy_count > 0:
 		return
 	show_enemy_hint()
@@ -71,10 +72,10 @@ func _process(delta):
 		if show_something_special:
 			special()
 			show_something_special = false
+			yield(get_tree().create_timer(0.08),"timeout")
 		timer = 4.0
 		var temp = randi() % 150 - 49
-		for e in range(0, (randi() % 10) + 2):
-			randomize()
+		for e in range(0, (randi() % 10) + 5):
 			generate_enemy(temp)
 			yield(get_tree().create_timer(0.2),"timeout")
 		randomize()
@@ -82,6 +83,7 @@ func _process(delta):
 		dis()
 
 func special():
+	randomize()
 	if i == 0:
 		var random = randi() % int(OS.get_screen_size().y) - OS.get_screen_size().y/2.0
 		var pos = player.global_position + Vector2(OS.get_screen_size().x,random)
@@ -112,6 +114,7 @@ func special():
 		add_child(en)
 
 func generate_enemy(temp):
+	randomize()
 	Data.enemy_count += 1
 	if i == 0:
 		var random = randi() % int(OS.get_screen_size().y) - OS.get_screen_size().y/2.0

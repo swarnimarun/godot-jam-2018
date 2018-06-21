@@ -1,15 +1,15 @@
 extends Node2D
 
-export var allow_fullscreen = true
-
 onready var bg = $"UI/Background"
-onready var aim = $"UI/aim"
+onready var aim = $"newUI/aim"
 onready var player = $player
 
 onready var board_heat = $"UI/board_heat"
 onready var board_cold = $"UI/board_cold"
 
-var sc = preload("res://title_screen.tscn")
+signal home_screen
+
+#var sc = preload("res://title_screen.tscn")
 
 func _enter_tree():
 	Data.reload_scene()
@@ -17,6 +17,7 @@ func _enter_tree():
 	get_tree().paused = false
 
 func _ready():
+	connect("home_screen", get_parent(), "show_title", [])
 	$bg.playing = true
 	setup_colors()
 
@@ -28,11 +29,6 @@ func setup_colors():
 	bg.color = l
 	aim.self_modulate = m
 	player.self_modulate = m
-
-func _process(delta):
-	Data.mouseposGlobal = get_global_mouse_position()
-	if Input.is_key_pressed(KEY_F11) and allow_fullscreen:
-		OS.window_fullscreen = not OS.window_fullscreen
 
 func show_end():
 	Data.high_score = Data.score
@@ -166,7 +162,6 @@ func _on_musicOn_mouse_exited():
 func _on_returnnew_gui_input(ev):
 	if ev is InputEventMouseButton:
 		Data.reload_scene()
-		$enemies.reset()
 		get_tree().paused = false
 		var nodes = get_tree().get_nodes_in_group("endgui")
 		for n in nodes:
@@ -185,7 +180,7 @@ func _on_returnnew_mouse_exited():
 func _on_homenew_gui_input(ev):
 	if ev is InputEventMouseButton:
 		get_tree().paused = false
-		get_tree().change_scene("res://title_screen.tscn")
+		emit_signal("home_screen")
 
 
 func _on_homenew_mouse_entered():
